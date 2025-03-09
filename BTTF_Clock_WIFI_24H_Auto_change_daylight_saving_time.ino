@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "TM1637Display.h"
+#include "ArduinoJson.h"
 #include "WiFiManager.h"
 #include "NTPClient.h"
 
@@ -25,9 +26,11 @@
 
 bool res;
 //========================USEFUL VARIABLES=============================
-int UTC = 2; // UTC = value in hour (SUMMER TIME) [For example: Paris UTC+2 => UTC=2]
+int UTC = 2; // UTC + value in hour - Summer time
 const long utcOffsetInSeconds = 3600; // Offset in second
-int Display_backlight = 255;
+int Display_backlight_red = 1;
+int Display_backlight_green = 150;
+int Display_backlight_orange = 50;
 
 //Set the red displays
 int red_day = 26;
@@ -67,33 +70,31 @@ void setup()
   pinMode(33, OUTPUT);
   Serial.begin(115200);
   
-    WiFiManager manager;    
-     
-   manager.setTimeout(180);
+  WiFiManager manager;    
+  manager.setTimeout(180);
   //fetches ssid and password and tries to connect, if connections succeeds it starts an access point with the name called "BTTF_CLOCK" and waits in a blocking loop for configuration
   res = manager.autoConnect("BTTF_CLOCK","password");
   
   if(!res) {
-  Serial.println("failed to connect and timeout occurred");
-  ESP.restart(); //reset and try again
+    Serial.println("failed to connect and timeout occurred");
+    ESP.restart(); //reset and try again
   }
   
-
   delay(3000);
 
 
   timeClient.begin();
-  red1.setBrightness(Display_backlight);
-  red2.setBrightness(Display_backlight);
-  red3.setBrightness(Display_backlight);
+  red1.setBrightness(Display_backlight_red);
+  red2.setBrightness(Display_backlight_red);
+  red3.setBrightness(Display_backlight_red);
   
-  green1.setBrightness(Display_backlight);
-  green2.setBrightness(Display_backlight);
-  green3.setBrightness(Display_backlight);
+  green1.setBrightness(Display_backlight_green);
+  green2.setBrightness(Display_backlight_green);
+  green3.setBrightness(Display_backlight_green);
 
-  orange1.setBrightness(Display_backlight);
-  orange2.setBrightness(Display_backlight);
-  orange3.setBrightness(Display_backlight);
+  orange1.setBrightness(Display_backlight_orange);
+  orange2.setBrightness(Display_backlight_orange);
+  orange3.setBrightness(Display_backlight_orange);
 
 }
 
@@ -116,22 +117,22 @@ void loop()
   Serial.print("Month: ");
   Serial.println(currentMonth);
   
-red1.showNumberDecEx(red_month,0b01000000,true,2,0);
-red1.showNumberDecEx(red_day,0b01000000,true,2,2);
+red1.showNumberDecEx(red_day,0b01000000,true,2,0);
+red1.showNumberDecEx(red_month,0b01000000,true,2,2);
 red2.showNumberDecEx(red_year,0b00000000,true);
 red3.showNumberDecEx(red_hour,0b01000000,true,2,0);
 red3.showNumberDecEx(red_minute,0b01000000,true,2,2);
 
 
-green1.showNumberDecEx(currentMonth,0b01000000,true,2,0);
-green1.showNumberDecEx(monthDay,0b01000000,true,2,2);
+green1.showNumberDecEx(monthDay,0b01000000,true,2,0);
+green1.showNumberDecEx(currentMonth,0b01000000,true,2,2);
 green2.showNumberDecEx(currentYear,0b00000000,true);
 green3.showNumberDecEx(timeClient.getHours(),0b01000000,true,2,0);
 green3.showNumberDecEx(timeClient.getMinutes(),0b01000000,true,2,2);
 
 
-orange1.showNumberDecEx(orange_month,0b01000000,true,2,0);
-orange1.showNumberDecEx(orange_day,0b01000000,true,2,2);
+orange1.showNumberDecEx(orange_day,0b01000000,true,2,0);
+orange1.showNumberDecEx(orange_month,0b01000000,true,2,2);
 orange2.showNumberDecEx(orange_year,0b00000000,true);
 orange3.showNumberDecEx(orange_hour,0b01000000,true,2,0);
 orange3.showNumberDecEx(orange_minute,0b01000000,true,2,2);
