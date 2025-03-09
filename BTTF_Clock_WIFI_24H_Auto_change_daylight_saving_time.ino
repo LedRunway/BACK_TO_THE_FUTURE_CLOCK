@@ -117,22 +117,22 @@ void loop()
   Serial.print("Month: ");
   Serial.println(currentMonth);
   
-red1.showNumberDecEx(red_day,0b01000000,true,2,0);
-red1.showNumberDecEx(red_month,0b01000000,true,2,2);
+red1.showNumberDecEx(red_day,0,true,2,0);
+red1.showNumberDecEx(red_month,0,true,2,2);
 red2.showNumberDecEx(red_year,0b00000000,true);
 red3.showNumberDecEx(red_hour,0b01000000,true,2,0);
 red3.showNumberDecEx(red_minute,0b01000000,true,2,2);
 
 
-green1.showNumberDecEx(monthDay,0b01000000,true,2,0);
-green1.showNumberDecEx(currentMonth,0b01000000,true,2,2);
+green1.showNumberDecEx(monthDay,0,true,2,0);
+green1.showNumberDecEx(currentMonth,0,true,2,2);
 green2.showNumberDecEx(currentYear,0b00000000,true);
 green3.showNumberDecEx(timeClient.getHours(),0b01000000,true,2,0);
 green3.showNumberDecEx(timeClient.getMinutes(),0b01000000,true,2,2);
 
 
-orange1.showNumberDecEx(orange_day,0b01000000,true,2,0);
-orange1.showNumberDecEx(orange_month,0b01000000,true,2,2);
+orange1.showNumberDecEx(orange_day,0,true,2,0);
+orange1.showNumberDecEx(orange_month,0,true,2,2);
 orange2.showNumberDecEx(orange_year,0b00000000,true);
 orange3.showNumberDecEx(orange_hour,0b01000000,true,2,0);
 orange3.showNumberDecEx(orange_minute,0b01000000,true,2,2);
